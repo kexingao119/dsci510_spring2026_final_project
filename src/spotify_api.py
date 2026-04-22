@@ -6,10 +6,8 @@ import requests
 import pandas as pd
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
-
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-SPOTIFY_TRACKS_FILE = DATA_DIR / "spotify_tracks.csv"
+load_dotenv()
+from config import DATA_DIR, SPOTIFY_TRACKS_FILE
 
 
 def get_spotify_token():
@@ -65,7 +63,7 @@ def collect_tracks(query, token, total_limit=200):
             artists = item.get("artists", [])
             album = item.get("album", {})
 
-            # popularity is directly in the track object
+
             popularity = item.get("popularity")
 
             all_tracks.append({
@@ -98,7 +96,6 @@ def save_tracks_to_csv(df, output_path=None):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
     print(f"[INFO] Saved {len(df)} rows to {output_path}")
-    # Show popularity stats to confirm data is correct
     if "popularity" in df.columns:
         print(f"[INFO] Popularity — mean: {df['popularity'].mean():.1f}, nulls: {df['popularity'].isnull().sum()}")
 

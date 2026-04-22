@@ -34,7 +34,14 @@ The project performs the following types of analysis:
 
 ## Summary of Results
 
-*To be updated as the project progresses.*
+The project trained two classification models on 1,000 hip-hop tracks from the Kaggle Spotify Tracks Dataset:
+
+- **Decision Tree**: Accuracy 77.0%, Precision 0.821, Recall 0.763, F1 0.791
+- **Logistic Regression**: Accuracy 68.5%, Precision 0.692, Recall 0.807, F1 0.745
+
+The Decision Tree outperformed Logistic Regression and exceeded the 70% accuracy target. Feature importance analysis revealed that **loudness**, **danceability**, and **valence** are the strongest predictors of hit songs.
+
+Note: Spotify API returned popularity = 0 for all collected tracks due to 2024–2026 policy restrictions. The Kaggle dataset was used as the primary data source for model training.
 
 ---
 
@@ -96,5 +103,3 @@ Open `results.ipynb` in Jupyter Notebook:
 ```bash
 jupyter notebook results.ipynb
 ```
-
-> **Note:** Do not commit the `data/` or `results/` directories to GitHub. They are listed in `.gitignore`.

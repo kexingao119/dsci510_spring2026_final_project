@@ -1,7 +1,4 @@
-"""
-main.py - Hip-Hop Popularity Prediction Data Pipeline
-Run from src/ directory: python main.py
-"""
+
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
