@@ -12,13 +12,13 @@ The goal is to identify which musical features are most strongly associated with
 
 ## Data Sources
 
-| # | Name / Description | Source URL | Type | Fields | Format | Estimated Size |
-|---|-------------------|------------|------|--------|--------|----------------|
-| 1 | Spotify Track Search (Hip-Hop) | https://developer.spotify.com/documentation/web-api | API | track_id, track_name, artist, album, release_date, popularity, duration_ms, explicit | JSON → CSV | 500–1000 tracks |
-| 2 | Spotify Audio Features | https://developer.spotify.com/documentation/web-api | API | danceability, energy, tempo, loudness, speechiness, valence, acousticness | JSON → CSV | 500–1000 tracks |
-| 3 | Spotify Tracks Dataset (Kaggle) | https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset | File (CSV) | tempo, loudness, speechiness, acousticness, popularity | CSV | 1000–2000 tracks |
-| 4 | Billboard Hot 100 (Kaggle) | https://www.kaggle.com/datasets/dhruvildave/billboard-the-hot-100-songs | File (CSV) | song_name, artist, rank, date, weeks_on_chart | CSV | ~500 songs |
-| 5 | Genius Song Lyrics Dataset (Kaggle) | https://www.kaggle.com/datasets/carlosgdcj/genius-song-lyrics-with-language-information | File (CSV) | word_count, song_name, language, year | CSV | 300–1000 tracks |
+| # | Name / Description | Source URL | Type | Fields | Format | Estimated Size              |
+|---|-------------------|------------|------|--------|--------|-----------------------------|
+| 1 | Spotify Track Search (Hip-Hop) | https://developer.spotify.com/documentation/web-api | API | track_id, track_name, artist, album, release_date, popularity, duration_ms, explicit | JSON → CSV | 200 tracks (API restricted) |
+| 2 | Spotify Audio Features | https://developer.spotify.com/documentation/web-api | API | danceability, energy, tempo, loudness, speechiness, valence, acousticness | JSON → CSV | 200 tracks (API restricted) |
+| 3 | Spotify Tracks Dataset (Kaggle) | https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset | File (CSV) | tempo, loudness, speechiness, acousticness, popularity | CSV | 1000–2000 tracks            |
+| 4 | Billboard Hot 100 (Kaggle) | https://www.kaggle.com/datasets/dhruvildave/billboard-the-hot-100-songs | File (CSV) | song_name, artist, rank, date, weeks_on_chart | CSV | ~500 songs                  |
+| 5 | Genius Song Lyrics Dataset (Kaggle) | https://www.kaggle.com/datasets/carlosgdcj/genius-song-lyrics-with-language-information | File (CSV) | word_count, song_name, language, year | CSV | 500–1000 tracks             |
 
 ---
 
@@ -39,12 +39,11 @@ The project trained two classification models on 1,000 hip-hop tracks from the K
 - **Decision Tree**: Accuracy 77.0%, Precision 0.821, Recall 0.763, F1 0.791
 - **Logistic Regression**: Accuracy 68.5%, Precision 0.692, Recall 0.807, F1 0.745
 
-The Decision Tree outperformed Logistic Regression and exceeded the 70% accuracy target. Feature importance analysis revealed that **loudness**, **danceability**, and **valence** are the strongest predictors of hit songs.
+The Decision Tree outperformed Logistic Regression and exceeded the 70% accuracy target. Feature importance analysis revealed that **explicit**, **danceability**, and **acousticness** are the strongest predictors of hit songs.
 
 Note: Spotify API returned popularity = 0 for all collected tracks due to 2024–2026 policy restrictions. The Kaggle dataset was used as the primary data source for model training.
 
 ---
-
 ## How to Run
 
 ### 1. Clone the repository
@@ -64,42 +63,38 @@ source .venv/bin/activate       # Mac/Linux
 pip install -r requirements.txt
 ```
 
-### 3. Set up API credentials
+### 3. Download the data
 
-You need a **Spotify Developer account** to use the Spotify Web API.
+**Option A — To reproduce the analysis results in `results.ipynb` (recommended):**
 
-1. Go to https://developer.spotify.com/dashboard and create an app.
-2. Copy your **Client ID** and **Client Secret**.
-3. Create a `.env` file in the project root (see `.env.example` for the format):
+Download `kaggledataset.csv` from Google Drive and place it in the `data/` folder:
 
+https://drive.google.com/file/d/11wottgkPxLLOeUQywcIuqhcEiGpRejzi/view?usp=share_link
+
+Then open and run `results.ipynb`:
 ```bash
-cp .env.example .env
-# Then fill in your credentials in .env
+jupyter notebook results.ipynb
 ```
 
-### 4. Run the full pipeline
+**Option B — To run the full Spotify API data collection pipeline:**
 
+1. Create a Spotify Developer account at https://developer.spotify.com/dashboard
+2. Copy your Client ID and Client Secret
+3. Set up your `.env` file:
+```bash
+cp .env.example .env
+```
+4. Run the pipeline:
 ```bash
 python src/main.py
 ```
+This will collect up to 200 hip-hop tracks and save them to `data/spotify_tracks.csv` and `data/hiphop_cleaned.csv`.
 
-This will:
-- Authenticate with the Spotify API
-- Collect up to 500 hip-hop tracks
-- Save raw data to `data/spotify_tracks.csv`
-- Clean the data and add hit labels
-- Save cleaned data to `data/hiphop_cleaned.csv`
-
-### 5. Run tests
+### 4. Run tests
 
 ```bash
 python tests.py
 ```
 
-### 6. View analysis results
-
-Open `results.ipynb` in Jupyter Notebook:
-
-```bash
-jupyter notebook results.ipynb
-```
+## Data Availability Note
+No data files are included in this repository (excluded via `.gitignore`). Please follow the instructions in the **How to Run** section above to download the required datasets.

@@ -18,3 +18,4 @@ POPULARITY_THRESHOLD = 50
 # File paths
 SPOTIFY_TRACKS_FILE = DATA_DIR / "spotify_tracks.csv"
 CLEANED_DATA_FILE = DATA_DIR / "hiphop_cleaned.csv"
+KAGGLE_DATA_FILE = DATA_DIR / "kaggledataset.csv"
