@@ -95,6 +95,15 @@ This will collect up to 200 hip-hop tracks and save them to `data/spotify_tracks
 ```bash
 python tests.py
 ```
-
 ## Data Availability Note
 No data files are included in this repository (excluded via `.gitignore`). Please follow the instructions in the **How to Run** section above to download the required datasets.
+
+## AI Usage
+
+ChatGPT was used as a coding assistant primarily for debugging, clarifying terms concepts, and improving clear organization. 
+
+All core code, data processing logic, and modeling implementation were developed by the author. AI was not used to generate complete solutions or end-to-end code. 
+
+All AI-assisted suggestions were reviewed, modified, and integrated manually.
+
+
